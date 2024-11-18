@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+using namespace std;
 
 void Sort(int arr[], int n)
  {
@@ -10,7 +11,7 @@ void Sort(int arr[], int n)
 
 
 
-        while (j >= 0 && std::abs(arr[j]) > std::abs(key))
+        while (j >= 0 && abs(arr[j]) > abs(key))
             {
             arr[j + 1] = arr[j];
             j--;
@@ -26,10 +27,10 @@ int main()
 
    Sort(arr, n);
 
-    std::cout << "Sorted array by absolute value: ";
+    cout << "Sorted array by absolute value: ";
     for (int i = 0; i < n; i++)
         {
-        std::cout << arr[i] << ",";
+        cout << arr[i] << ",";
     }
     return 0;
 }
