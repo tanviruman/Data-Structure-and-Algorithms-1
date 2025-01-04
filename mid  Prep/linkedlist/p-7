@@ -1,0 +1,74 @@
+//Reverse a singly linked list.
+#include <iostream>
+using namespace std;
+
+// Structure to represent a node in the singly linked list
+struct Node {
+    int data;   // Stores the data of the node
+    Node* next; // Pointer to the next node
+};
+
+// Function to print the linked list
+void printList(Node* head) {
+    Node* temp = head; // Start from the head node
+    while (temp != nullptr) { 
+        cout << temp->data << " "; // Print the data of the current node
+        temp = temp->next;         // Move to the next node
+    }
+    cout << endl; // Print a newline for better readability
+}
+
+// Function to reverse a singly linked list
+Node* reverseList(Node* head) {
+    Node* prev = nullptr;  // Initialize the previous pointer to null
+    Node* current = head;  // Start with the head node
+    Node* next = nullptr;  // Pointer to store the next node
+
+    while (current != nullptr) {
+        next = current->next;   // Save the next node
+        current->next = prev;   // Reverse the pointer of the current node
+        prev = current;         // Move prev to the current node
+        current = next;         // Move to the next node in the original list
+    }
+
+    return prev; // The new head of the reversed list
+}
+
+int main() {
+    // Create the linked list
+    Node* head = new Node();
+    head->data = 10;      // Initialize the head node with value 10
+    head->next = nullptr; // Head's next pointer is null
+
+    Node* temp = head; // Temporary pointer for traversing and building the list
+
+    // Add additional nodes based on user input
+    int value;
+    for (int i = 0; i < 5; i++) {
+        cout << "Enter value for node " << i + 2 << ": ";
+        cin >> value;
+
+        Node* newNode = new Node(); // Create a new node
+        newNode->data = value;      // Set the data for the new node
+        newNode->next = nullptr;    // Set the next pointer to null
+
+        temp->next = newNode; // Link the new node to the current node
+        temp = newNode;       // Move to the new node
+    }
+
+    // Reverse the linked list
+    head = reverseList(head);
+
+    // Print the reversed linked list
+    cout << "Reversed Linked List: ";
+    printList(head);
+
+    // Free the memory
+    while (head != nullptr) {
+        Node* toDelete = head;
+        head = head->next;
+        delete toDelete;
+    }
+
+    return 0;
+}

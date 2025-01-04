@@ -1,0 +1,116 @@
+//Given the head of a linked list, determine if the linked list has a cycle in it.
+#include <iostream>
+using namespace std;
+
+// Node structure for the linked list
+struct Node {
+    int data;      // Store data
+    Node* next;    // Pointer to the next node
+
+    // Constructor to initialize a node
+    Node(int value) : data(value), next(nullptr) {}
+};
+
+// Function to detect a cycle in the linked list
+bool hasCycle(Node* head) {
+    if (!head || !head->next) return false; // No cycle in an empty or single-node list
+
+    Node* slow = head; // Slow pointer moves one step
+    Node* fast = head; // Fast pointer moves two steps
+
+    while (fast && fast->next) {
+        slow = slow->next;
+        fast = fast->next->next;
+
+        if (slow == fast) {
+            return true; // Cycle detected
+        }
+    }
+    return false; // No cycle
+}
+
+// Function to add a new node to the end of the list
+void append(Node*& head, int value) {
+    Node* newNode = new Node(value);
+    if (!head) {
+        head = newNode;
+        return;
+    }
+    Node* temp = head;
+    while (temp->next) {
+        temp = temp->next;
+    }
+    temp->next = newNode;
+}
+
+// Function to create a cycle in the linked list for testing
+void createCycle(Node* head, int pos) {
+    if (pos == -1) return; // No cycle
+
+    Node* temp = head;
+    Node* cycleNode = nullptr;
+    int index = 0;
+
+    while (temp->next) {
+        if (index == pos) {
+            cycleNode = temp; // Node where the cycle starts
+        }
+        temp = temp->next;
+        index++;
+    }
+    temp->next = cycleNode; // Create the cycle
+}
+
+// Function to free the linked list memory (break the cycle first if present)
+void freeList(Node*& head) {
+    if (!head) return;
+
+    Node* slow = head;
+    Node* fast = head;
+
+    while (fast && fast->next) {
+        slow = slow->next;
+        fast = fast->next->next;
+
+        if (slow == fast) {
+            slow = head;
+            while (slow->next != fast->next) {
+                slow = slow->next;
+                fast = fast->next;
+            }
+            fast->next = nullptr; // Break the cycle
+            break;
+        }
+    }
+
+    while (head) {
+        Node* temp = head;
+        head = head->next;
+        delete temp;
+    }
+}
+
+int main() {
+    Node* head = nullptr;
+
+    // Creating the linked list
+    append(head, 3);
+    append(head, 2);
+    append(head, 0);
+    append(head, -4);
+
+    // Creating a cycle (e.g., position 1)
+    createCycle(head, 1);
+
+    // Checking for a cycle
+    if (hasCycle(head)) {
+        cout << "The linked list has a cycle." << endl;
+    } else {
+        cout << "The linked list does not have a cycle." << endl;
+    }
+
+    // Freeing the list (break the cycle first)
+    freeList(head);
+
+    return 0;
+}

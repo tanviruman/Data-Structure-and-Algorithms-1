@@ -1,0 +1,83 @@
+//Delete all the even numbers from a linked list.
+#include <iostream>
+using namespace std;
+
+// Structure to represent a node in the linked list
+struct Node {
+    int data;   // Stores the data value
+    Node* next; // Pointer to the next node
+};
+
+// Function to display the linked list
+void display(Node* head) {
+    Node* temp = head; // Start from the head node
+    while (temp != nullptr) {
+        cout << temp->data << " "; // Print the data of the current node
+        temp = temp->next;         // Move to the next node
+    }
+    cout << endl; // Print a newline for better readability
+}
+
+// Function to delete all nodes containing even numbers
+Node* deleteEvenNumbers(Node* head) {
+    // Handle the case where the head itself contains even numbers
+    while (head != nullptr && head->data % 2 == 0) {
+        Node* temp = head; // Save the current head node
+        head = head->next; // Move the head to the next node
+        delete temp;       // Delete the old head node
+    }
+
+    Node* current = head; // Start traversal from the new head
+
+    // Traverse the rest of the list
+    while (current != nullptr && current->next != nullptr) {
+        if (current->next->data % 2 == 0) { // Check if the next node contains an even number
+            Node* temp = current->next; // Save the node to be deleted
+            current->next = current->next->next; // Skip the even node
+            delete temp; // Delete the even node
+        } else {
+            current = current->next; // Move to the next node if no deletion is required
+        }
+    }
+
+    return head; // Return the updated head of the list
+}
+
+int main() {
+    // Create the linked list
+    Node* head = new Node();
+    head->data = 3;      // Initialize the head node with value 3
+    head->next = nullptr;
+
+    Node* temp = head;
+
+    // Add additional nodes based on user input
+    int value;
+    for (int i = 0; i < 5; i++) {
+        cout << "Enter value for node " << i + 2 << ": ";
+        cin >> value;
+
+        Node* newNode = new Node();
+        newNode->data = value;
+        newNode->next = nullptr;
+
+        temp->next = newNode; // Link the new node
+        temp = newNode;       // Move to the new node
+    }
+
+    // Delete nodes containing even numbers
+    head = deleteEvenNumbers(head);
+
+    // Display the modified linked list
+    cout << "Modified Linked List: ";
+    display(head);
+
+    // Free the memory
+    while (head != nullptr) {
+        Node* toDelete = head;
+        head = head->next;
+        delete toDelete;
+    }
+
+    return 0;
+}

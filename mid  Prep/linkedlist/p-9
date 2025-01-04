@@ -1,0 +1,92 @@
+//Given a singly linked list, print “YES” if it is a palindrome otherwise print “NO”.
+
+#include <iostream>
+using namespace std;
+
+// Structure to represent a node in the linked list
+struct Node {
+    int data;   // Stores the data of the node
+    Node* next; // Pointer to the next node
+};
+
+// Function to display the linked list
+void display(Node* head) {
+    Node* temp = head; // Start from the head node
+    while (temp != nullptr) { 
+        cout << temp->data << " "; // Print the data of the current node
+        temp = temp->next;         // Move to the next node
+    }
+    cout << endl; // Print a newline for better readability
+}
+
+// Function to check if the linked list is a palindrome
+bool isPalindrome(Node* head) {
+    if (!head || !head->next) return true; // A single node or empty list is always a palindrome
+
+    // Step 1: Find the middle of the linked list using two pointers
+    Node* slow = head;  // Moves one step at a time
+    Node* fast = head;  // Moves two steps at a time
+    while (fast != nullptr && fast->next != nullptr) {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+
+    // Step 2: Reverse the second half of the list
+    Node* prev = nullptr;
+    while (slow != nullptr) {
+        Node* temp = slow->next;  // Save the next node
+        slow->next = prev;       // Reverse the pointer
+        prev = slow;             // Move prev to the current node
+        slow = temp;             // Move to the next node
+    }
+
+    // Step 3: Compare the two halves of the list
+    Node* left = head;  // Start of the first half
+    Node* right = prev; // Start of the reversed second half
+    while (right != nullptr) { // Compare nodes until the end of the reversed half
+        if (left->data != right->data) return false; // If mismatch, it's not a palindrome
+        left = left->next;  // Move to the next node in the first half
+        right = right->next; // Move to the next node in the second half
+    }
+
+    return true; // If all nodes matched, it's a palindrome
+}
+
+int main() {
+    // Step 4: Create a linked list
+    Node* head = new Node();   // Dynamically allocate memory for the head node
+    head->data = 1;            // Initialize the head node with value 1
+    head->next = nullptr;      // Set the next pointer of the head to nullptr
+
+    Node* temp = head;         // Temporary pointer for building the list
+
+    // Add additional nodes based on user input
+    int value;
+    for (int i = 0; i < 3; i++) { // Create 3 additional nodes
+        cout << "Enter value for node " << i + 2 << ": ";
+        cin >> value;
+
+        Node* newNode = new Node(); // Dynamically allocate memory for a new node
+        newNode->data = value;      // Set the data for the new node
+        newNode->next = nullptr;    // Set the next pointer to nullptr
+
+        temp->next = newNode;       // Link the new node to the current list
+        temp = newNode;             // Move temp to the new node
+    }
+
+    // Step 5: Check if the linked list is a palindrome
+    if (isPalindrome(head)) {
+        cout << "Yes, the linked list is a palindrome." << endl;
+    } else {
+        cout << "No, the linked list is not a palindrome." << endl;
+    }
+
+    // Step 6: Free the allocated memory
+    while (head != nullptr) {
+        Node* toDelete = head;
+        head = head->next;
+        delete toDelete;
+    }
+
+    return 0;
+}

@@ -1,0 +1,82 @@
+//Given a sorted linked list, insert a number so that after insertion, it remains sorted.
+#include <iostream>
+using namespace std;
+
+// Structure for a node in the linked list
+struct Node {
+    int data;   // Stores the data value
+    Node* next; // Pointer to the next node
+};
+
+// Function to display the linked list
+void display(Node* head) {
+    Node* temp = head; // Start from the head node
+    while (temp != nullptr) { 
+        cout << temp->data << " "; // Print the data of the current node
+        temp = temp->next;         // Move to the next node
+    }
+    cout << endl; // Print a newline for better readability
+}
+
+// Function to insert a new node at a specific index
+void insertAt(Node* head, int value, int index) {
+    Node* temp = head;             // Start from the head node
+    Node* newNode = new Node();    // Dynamically allocate memory for a new node
+    newNode->data = value;         // Set the data value for the new node
+
+    // Traverse to the node before the specified index
+    for (int i = 0; i < index - 1; i++) {
+        if (temp->next == nullptr) { // If index is out of bounds, exit
+            cout << "Index out of bounds!" << endl;
+            return;
+        }
+        temp = temp->next;
+    }
+
+    // Insert the new node
+    newNode->next = temp->next; // Link the new node to the next node
+    temp->next = newNode;       // Link the previous node to the new node
+}
+
+int main() {
+    Node* head = nullptr;
+    Node* temp = nullptr;
+
+    // Create the head node
+    head = new Node();
+    head->data = 12;
+    head->next = nullptr;
+
+    temp = head;
+
+    // Create additional nodes
+    int value;
+    for (int i = 0; i < 5; i++) {
+        cout << "Enter value for node " << i + 2 << ": ";
+        cin >> value;
+
+        Node* newNode = new Node();
+        newNode->data = value;
+        newNode->next = nullptr;
+
+        temp->next = newNode; // Link the previous node to the new node
+        temp = newNode;       // Move to the new node
+    }
+
+    // Insert a node with value 3 at index 2
+    cout << "Inserting 3 at index 2..." << endl;
+    insertAt(head, 3, 2);
+
+    // Display the linked list
+    cout << "Linked List: ";
+    display(head);
+
+    // Free the memory
+    while (head != nullptr) {
+        Node* toDelete = head;
+        head = head->next;
+        delete toDelete;
+    }
+
+    return 0;
+}

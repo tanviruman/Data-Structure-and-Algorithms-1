@@ -1,0 +1,101 @@
+//Given a singly linked list and an integer k, rotate the linked list to the left by k places.
+#include <iostream>
+using namespace std;
+
+// Structure for a node in the linked list
+struct Node {
+    int data;   // Stores the data value
+    Node* next; // Pointer to the next node
+
+    // Constructor to initialize a node
+    Node(int value) : data(value), next(nullptr) {}
+};
+
+// Function to append a new node to the linked list
+void append(Node*& head, int value) {
+    Node* newNode = new Node(value); // Create a new node
+    if (!head) {                     // If the list is empty
+        head = newNode;              // Make the new node the head
+        return;
+    }
+
+    Node* temp = head;               // Start at the head
+    while (temp->next) {             // Traverse to the end of the list
+        temp = temp->next;
+    }
+    temp->next = newNode;            // Link the new node at the end
+}
+
+// Function to rotate the linked list to the left by k positions
+void rotateLeft(Node*& head, int k) {
+    if (!head || k == 0) return;     // If the list is empty or no rotation is needed
+
+    // Find the length of the linked list
+    Node* temp = head;
+    int length = 1;
+    while (temp->next) {             // Traverse the list to calculate its length
+        temp = temp->next;
+        length++;
+    }
+
+    // Adjust k if it's greater than the length of the list
+    k = k % length;
+    if (k == 0) return;              // If k is a multiple of the list length, no rotation is needed
+
+    // Connect the last node to the head to form a circular linked list
+    temp->next = head;
+
+    // Find the new tail node (length - k - 1) and the new head node
+    int newTailPosition = length - k;
+    Node* newTail = head;
+    for (int i = 1; i < newTailPosition; i++) {
+        newTail = newTail->next;
+    }
+
+    // Update the head to the new starting node and break the circular link
+    head = newTail->next;
+    newTail->next = nullptr;
+}
+
+// Function to display the linked list
+void display(Node* head) {
+    Node* temp = head;               // Start at the head
+    while (temp) {                   // Traverse the list
+        cout << temp->data << " ";   // Print the data of each node
+        temp = temp->next;           // Move to the next node
+    }
+    cout << endl;                    // Print a newline for better readability
+}
+
+int main() {
+    Node* head = nullptr;            // Initialize the linked list as empty
+
+    // Add elements to the linked list
+    append(head, 10);
+    append(head, 20);
+    append(head, 30);
+    append(head, 40);
+    append(head, 50);
+
+    int k = 4; // Number of positions to rotate the list
+
+    // Display the original linked list
+    cout << "Original List: ";
+    display(head);
+
+    // Rotate the linked list to the left by k positions
+    rotateLeft(head, k);
+
+    // Display the rotated linked list
+    cout << "Rotated List: ";
+    display(head);
+
+    // Free the allocated memory
+    while (head) {                   // Traverse the list and delete each node
+        Node* temp = head;
+        head = head->next;
+        delete temp;
+    }
+
+    return 0;                        // Indicate successful execution
+}

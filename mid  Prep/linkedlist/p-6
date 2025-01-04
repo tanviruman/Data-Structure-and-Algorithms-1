@@ -1,0 +1,81 @@
+//Reverse a doubly linked list.
+#include <iostream>
+using namespace std;
+
+// Structure for a doubly linked list node
+struct Node {
+    int data;   // Stores the data of the node
+    Node* next; // Pointer to the next node
+    Node* prev; // Pointer to the previous node
+};
+
+// Function to print the doubly linked list
+void printList(Node* head) {
+    Node* temp = head; // Start from the head node
+    while (temp != nullptr) {
+        cout << temp->data << " "; // Print the data of the current node
+        temp = temp->next;         // Move to the next node
+    }
+    cout << endl; // Print a newline for better readability
+}
+
+// Function to reverse the doubly linked list
+Node* reverseList(Node* head) {
+    Node* temp = nullptr;   // Temporary pointer for swapping
+    Node* current = head;   // Start from the head node
+
+    // Traverse the list and swap next and prev pointers for each node
+    while (current != nullptr) {
+        temp = current->prev;       // Store the current node's previous pointer
+        current->prev = current->next; // Swap the next and prev pointers
+        current->next = temp;       // Set the next pointer to the stored value
+        current = current->prev;    // Move to the next node in the original order
+    }
+
+    // Update the head to point to the new first node
+    if (temp != nullptr) {
+        head = temp->prev;
+    }
+    return head;
+}
+
+int main() {
+    // Create the doubly linked list
+    Node* head = new Node();
+    head->data = 10;       // Initialize the head node with value 10
+    head->prev = nullptr;  // Head's prev pointer is null
+    head->next = nullptr;  // Head's next pointer is null
+
+    Node* temp = head; // Temporary pointer for traversing and building the list
+
+    // Add additional nodes based on user input
+    int value;
+    for (int i = 0; i < 5; i++) {
+        cout << "Enter value for node " << i + 2 << ": ";
+        cin >> value;
+
+        Node* newNode = new Node(); // Create a new node
+        newNode->data = value;      // Set the data for the new node
+        newNode->next = nullptr;    // Set the next pointer to null
+        newNode->prev = temp;       // Link the new node's prev to the current node
+
+        temp->next = newNode;       // Link the current node's next to the new node
+        temp = newNode;             // Move to the new node
+    }
+
+    // Reverse the doubly linked list
+    head = reverseList(head);
+
+    // Print the reversed linked list
+    cout << "Reversed Linked List: ";
+    printList(head);
+
+    // Free the memory
+    while (head != nullptr) {
+        Node* toDelete = head;
+        head = head->next;
+        delete toDelete;
+    }
+
+    return 0;
+}

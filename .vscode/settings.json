@@ -98,6 +98,7 @@
     "stdexcept": "cpp",
     "streambuf": "cpp",
     "typeinfo": "cpp",
-    "binary search": "cpp"
+    "binary search": "cpp",
+    "binary search in a sorted array": "cpp"
   }
 }
