@@ -1,3 +1,5 @@
+//. Find the kth smallest element from an array.
+
 #include <iostream>  // Include the standard input-output library
 using namespace std; // Use the standard namespace
 
