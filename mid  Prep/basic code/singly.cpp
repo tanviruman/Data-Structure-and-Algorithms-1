@@ -3,11 +3,11 @@
 
 // Define Node structure
 struct Node {
-    int val;                // Stores the value of the node
+    int val;                // Value of the node
     struct Node *next;      // Pointer to the next node in the linked list
 };
 
-struct Node *head = NULL;   // Global pointer to the head of the linked list
+struct Node *head = NULL;   // Global pointer to the head of the linked list, initially NULL
 
 // Insert a node at the beginning
 void insertHead(int value) {
@@ -93,11 +93,11 @@ void deleteTail() {
 void deleteAfter(int oldValue) {
     struct Node *traveller = head;      // Start from the head
 
-    while (traveller != NULL && traveller->val != oldValue) {
+    while (traveller != NULL && traveller->val != oldValue) { // Find the specific value
         traveller = traveller->next;
     }
 
-    if (traveller == NULL || traveller->next == NULL) {
+    if (traveller == NULL || traveller->next == NULL) { // Check if the value exists or if it's the last node
         printf("Cannot delete after %d as it doesn't exist or is the last node!\n", oldValue);
     } else {
         struct Node *temp = traveller->next; // Temporarily store the node to be deleted
@@ -121,7 +121,7 @@ void printLinkedList() {
 int main() {
     int choice, value, oldValue;
 
-    while (1) {
+    while (1) { // Infinite loop for the menu-driven interface
         printf("\nMenu:\n");
         printf("1. Insert at the beginning\n");
         printf("2. Insert at the end\n");
@@ -132,33 +132,33 @@ int main() {
         printf("7. Print the linked list\n");
         printf("8. Exit\n");
         printf("Enter your choice (1-8): ");
-        scanf("%d", &choice);
+        scanf("%d", &choice); // Take user input for the menu option
 
         // Process user choice
         if (choice == 1) {
             printf("Enter the value to insert at the beginning: ");
             scanf("%d", &value);
-            insertHead(value);
+            insertHead(value); // Insert value at the beginning
         } else if (choice == 2) {
             printf("Enter the value to insert at the end: ");
             scanf("%d", &value);
-            insertTail(value);
+            insertTail(value); // Insert value at the end
         } else if (choice == 3) {
             printf("Enter the value after which to insert: ");
             scanf("%d", &oldValue);
             printf("Enter the new value to insert: ");
             scanf("%d", &value);
-            insertAfter(oldValue, value);
+            insertAfter(oldValue, value); // Insert value after a specific value
         } else if (choice == 4) {
-            deleteHead();
+            deleteHead(); // Delete the head node
         } else if (choice == 5) {
-            deleteTail();
+            deleteTail(); // Delete the tail node
         } else if (choice == 6) {
             printf("Enter the value after which to delete: ");
             scanf("%d", &oldValue);
-            deleteAfter(oldValue);
+            deleteAfter(oldValue); // Delete a node after a specific value
         } else if (choice == 7) {
-            printLinkedList();
+            printLinkedList(); // Print the linked list
         } else if (choice == 8) {
             printf("Exiting program. Goodbye!\n");
             exit(0);  // Exit the program
