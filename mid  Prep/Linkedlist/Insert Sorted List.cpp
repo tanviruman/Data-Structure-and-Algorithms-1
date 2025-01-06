@@ -57,18 +57,37 @@ void printList(Node* head) {
 }
 
 int main() {
-    // Create the initial sorted linked list
-    Node* head = createNode(1);
-    head->next = createNode(4);
-    head->next->next = createNode(6);
-    head->next->next->next = createNode(7);
-    head->next->next->next->next = createNode(9);
-    head->next->next->next->next->next = createNode(11);
+    // Input the number of nodes and their values from the user
+    int n;
+    cout << "Enter the number of nodes in the sorted linked list: ";
+    cin >> n;
+
+    Node* head = nullptr; // Initialize the head of the linked list
+    Node* tail = nullptr; // Keep track of the last node
+
+    cout << "Enter the node values in sorted order: ";
+    for (int i = 0; i < n; i++) {
+        int value;
+        cin >> value;
+
+        Node* newNode = createNode(value); // Create a new node with the user input
+
+        if (head == nullptr) {
+            head = newNode; // Set the first node as the head
+        } else {
+            tail->next = newNode; // Append the new node to the end
+        }
+        tail = newNode; // Update the tail to the new node
+    }
 
     cout << "Original list: ";
     printList(head); // Print the original list
 
-    int num = 3; // Number to insert
+    // Input the number to insert
+    int num;
+    cout << "Enter the number to insert into the sorted list: ";
+    cin >> num;
+
     cout << "Inserting " << num << " into the sorted list...\n";
 
     insertSorted(head, num); // Insert the number into the sorted list

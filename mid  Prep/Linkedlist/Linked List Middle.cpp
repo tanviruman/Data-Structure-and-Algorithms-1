@@ -40,21 +40,52 @@ void printMiddle(Node* head) {
 }
 
 int main() {
-    // Create the linked list for the first input: 34->12->55->42->11
-    Node* head1 = createNode(34); // Create the head node with data 34
-    head1->next = createNode(12); // Link the second node with data 12
-    head1->next->next = createNode(55); // Link the third node with data 55
-    head1->next->next->next = createNode(42); // Link the fourth node with data 42
-    head1->next->next->next->next = createNode(11); // Link the fifth node with data 11
+    // Input the number of nodes for the first linked list
+    int n1;
+    cout << "Enter the number of nodes in the first linked list: ";
+    cin >> n1;
+
+    Node* head1 = nullptr; // Initialize the head for the first linked list
+    Node* tail1 = nullptr; // To keep track of the last node in the list
+
+    cout << "Enter the values for the first linked list: ";
+    for (int i = 0; i < n1; i++) {
+        int value;
+        cin >> value;
+        Node* newNode = createNode(value); // Create a new node with user input
+
+        if (head1 == nullptr) {
+            head1 = newNode; // Set the first node as the head
+        } else {
+            tail1->next = newNode; // Append the new node to the end
+        }
+        tail1 = newNode; // Update the tail to the new node
+    }
 
     // Print the middle node of the first linked list
     printMiddle(head1);
 
-    // Create the linked list for the second input: 12->8->65->10
-    Node* head2 = createNode(12); // Create the head node with data 12
-    head2->next = createNode(8);  // Link the second node with data 8
-    head2->next->next = createNode(65); // Link the third node with data 65
-    head2->next->next->next = createNode(10); // Link the fourth node with data 10
+    // Input the number of nodes for the second linked list
+    int n2;
+    cout << "Enter the number of nodes in the second linked list: ";
+    cin >> n2;
+
+    Node* head2 = nullptr; // Initialize the head for the second linked list
+    Node* tail2 = nullptr; // To keep track of the last node in the list
+
+    cout << "Enter the values for the second linked list: ";
+    for (int i = 0; i < n2; i++) {
+        int value;
+        cin >> value;
+        Node* newNode = createNode(value); // Create a new node with user input
+
+        if (head2 == nullptr) {
+            head2 = newNode; // Set the first node as the head
+        } else {
+            tail2->next = newNode; // Append the new node to the end
+        }
+        tail2 = newNode; // Update the tail to the new node
+    }
 
     // Print the middle node of the second linked list
     printMiddle(head2);

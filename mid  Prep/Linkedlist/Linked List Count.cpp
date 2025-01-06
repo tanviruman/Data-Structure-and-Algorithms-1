@@ -37,16 +37,34 @@ int countOccurrences(Node* head, int num) {
 }
 
 int main() {
-    // Create the linked list with the given input: 1->2->1->2->1->3->1
-    Node* head = createNode(1); // Create the head node with data 1
-    head->next = createNode(2); // Link the second node with data 2
-    head->next->next = createNode(1); // Link the third node with data 1
-    head->next->next->next = createNode(2); // Link the fourth node with data 2
-    head->next->next->next->next = createNode(1); // Link the fifth node with data 1
-    head->next->next->next->next->next = createNode(3); // Link the sixth node with data 3
-    head->next->next->next->next->next->next = createNode(1); // Link the seventh node with data 1
+    // Input the number of nodes in the linked list
+    int n;
+    cout << "Enter the number of nodes in the linked list: ";
+    cin >> n;
 
-    int num = 1; // The number to count occurrences of
+    Node* head = nullptr; // Initialize the head of the linked list
+    Node* tail = nullptr; // Keep track of the last node
+
+    // Input the node values from the user
+    cout << "Enter the node values: ";
+    for (int i = 0; i < n; i++) {
+        int value;
+        cin >> value;
+
+        Node* newNode = createNode(value); // Create a new node with the user input
+
+        if (head == nullptr) {
+            head = newNode; // Set the first node as the head
+        } else {
+            tail->next = newNode; // Append the new node to the end
+        }
+        tail = newNode; // Update the tail to the new node
+    }
+
+    // Input the number to count occurrences of
+    int num;
+    cout << "Enter the number to count occurrences of: ";
+    cin >> num;
 
     // Calculate and print the number of occurrences of the given number
     cout << "Number of occurrences of " << num << ": " << countOccurrences(head, num) << endl;

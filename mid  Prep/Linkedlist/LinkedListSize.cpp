@@ -35,12 +35,27 @@ int getSize(Node* head) {
 }
 
 int main() {
-    // Create the linked list with the given input: 34->12->55->42->11
-    Node* head = createNode(34); // Create the head node with data 34
-    head->next = createNode(12); // Link the second node with data 12
-    head->next->next = createNode(55); // Link the third node with data 55
-    head->next->next->next = createNode(42); // Link the fourth node with data 42
-    head->next->next->next->next = createNode(11); // Link the fifth node with data 11
+    // Input the number of nodes for the linked list
+    int n;
+    cout << "Enter the number of nodes in the linked list: ";
+    cin >> n;
+
+    Node* head = nullptr; // Initialize the head for the linked list
+    Node* tail = nullptr; // To keep track of the last node in the list
+
+    cout << "Enter the values for the linked list: ";
+    for (int i = 0; i < n; i++) {
+        int value;
+        cin >> value; // Input the value for the current node
+        Node* newNode = createNode(value); // Create a new node with the input value
+
+        if (head == nullptr) {
+            head = newNode; // Set the first node as the head
+        } else {
+            tail->next = newNode; // Append the new node to the end
+        }
+        tail = newNode; // Update the tail to the new node
+    }
 
     // Calculate and print the size of the linked list
     cout << "Size of the linked list: " << getSize(head) << endl;

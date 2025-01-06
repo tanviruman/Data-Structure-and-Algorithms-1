@@ -57,13 +57,33 @@ void printList(Node* head) {
 }
 
 int main() {
-    // Create the initial linked list
-    Node* head = createNode(1);
-    head->next = createNode(4);
-    head->next->next = createNode(6);
-    head->next->next->next = createNode(7);
-    head->next->next->next->next = createNode(9);
-    head->next->next->next->next->next = createNode(11);
+    // Create the linked list from user input
+    int n;
+    cout << "Enter the number of nodes in the linked list: ";
+    cin >> n;
+
+    if (n == 0) {
+        cout << "The list is empty!" << endl;
+        return 0;
+    }
+
+    Node* head = nullptr; // Initialize the head of the linked list
+    Node* tail = nullptr; // Keep track of the last node
+
+    cout << "Enter the node values: ";
+    for (int i = 0; i < n; i++) {
+        int value;
+        cin >> value;
+
+        Node* newNode = createNode(value); // Create a new node with the user input
+
+        if (head == nullptr) {
+            head = newNode; // Set the first node as the head
+        } else {
+            tail->next = newNode; // Append the new node to the end
+        }
+        tail = newNode; // Update the tail to the new node
+    }
 
     cout << "Original list: ";
     printList(head); // Print the original list
