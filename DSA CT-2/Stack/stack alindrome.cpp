@@ -1,5 +1,4 @@
-#include <iostream>  // Include necessary library for input/output operations
-#include <cctype>    // Include library for character functions like isalpha and tolower
+#include <iostream>  // For input and output operations
 using namespace std; // Use the standard namespace
 
 // Define a Node structure for the custom stack
@@ -13,10 +12,10 @@ Node* top = NULL;
 
 // Function to push a character onto the stack
 void push(char value) {
-    Node* newNode = new Node(); // Allocate memory for a new node
-    newNode->data = value;      // Assign the value to the new node
-    newNode->next = top;        // Link the new node to the current top node
-    top = newNode;              // Update the top pointer to the new node
+    Node* newNode = new Node(); // Create a new node
+    newNode->data = value;      // Store the character in the new node
+    newNode->next = top;        // Link the new node to the current top
+    top = newNode;              // Update the top pointer
 }
 
 // Function to pop a character from the stack
@@ -26,33 +25,42 @@ char pop() {
     }
     char value = top->data;     // Get the character from the top node
     Node* temp = top;           // Temporary pointer to the top node
-    top = top->next;            // Update the top pointer to the next node
-    delete temp;                // Free memory of the old top node
+    top = top->next;            // Move the top pointer to the next node
+    delete temp;                // Free the memory of the old top node
     return value;               // Return the popped character
 }
 
-// Function to check if the stack is empty
-bool isEmpty() {
-    return top == NULL;
+// Function to convert uppercase characters to lowercase
+char toLowercase(char c) {
+    if (c >= 'A' && c <= 'Z') { // If the character is uppercase
+        return c + 32;          // Convert to lowercase
+    }
+    return c;                   // Return the character as is if it's already lowercase
+}
+
+// Function to check if a character is alphabetic
+bool isAlphabetic(char c) {
+    return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'); // Check if the character is in the alphabet range
 }
 
 // Function to check if a given string is a palindrome
 bool isPalindrome(string str) {
-    // Step 1: Process the input string
-    for (char c : str) {
-        if (isalpha(c)) {           // Check if the character is alphabetic
-            c = tolower(c);         // Convert the character to lowercase
-            push(c);                // Push the character onto the stack
+    // Step 1: Process the input string and push alphabetic characters onto the stack
+    for (int i = 0; str[i] != '\0'; i++) { // Loop through each character in the string
+        char c = str[i];                   // Get the current character
+        if (isAlphabetic(c)) {             // Check if the character is alphabetic
+            push(toLowercase(c));          // Convert to lowercase and push onto the stack
         }
     }
 
     // Step 2: Verify the palindrome property
-    for (char c : str) {
-        if (isalpha(c)) {           // Check if the character is alphabetic
-            c = tolower(c);         // Convert the character to lowercase
-            char topChar = pop();   // Pop the top character from the stack
-            if (c != topChar) {     // Compare the characters
-                return false;       // If mismatch, return false
+    for (int i = 0; str[i] != '\0'; i++) { // Loop through the string again
+        char c = str[i];                   // Get the current character
+        if (isAlphabetic(c)) {             // Check if the character is alphabetic
+            c = toLowercase(c);            // Convert to lowercase
+            char topChar = pop();          // Pop the top character from the stack
+            if (c != topChar) {            // Compare the characters
+                return false;              // If mismatch, return false
             }
         }
     }
