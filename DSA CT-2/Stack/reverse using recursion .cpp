@@ -1,90 +1,83 @@
-// C++ code to reverse a
-// stack using recursion
-#include <bits/stdc++.h>
+#include <iostream> // For input and output operations
 using namespace std;
 
-// Below is a recursive function
-// that inserts an element
-// at the bottom of a stack.
-void insert_at_bottom(stack<int>& st, int x)
-{
+const int MAX_SIZE = 100; // Maximum size of the simulated stack
+int stack[MAX_SIZE];      // Array to simulate the stack
+int top = -1;             // Top pointer initialized to -1 (empty stack)
 
-	if (st.size() == 0) {
-		st.push(x);
-	}
-	else {
-
-		// All items are held in Function Call
-		// Stack until we reach end of the stack
-		// When the stack becomes empty, the
-		// st.size() becomes 0, the above if
-		// part is executed and the item is
-		// inserted at the bottom
-
-		int a = st.top();
-		st.pop();
-		insert_at_bottom(st, x);
-
-		// push allthe items held in
-		// Function Call Stack
-		// once the item is inserted
-		// at the bottom
-		st.push(a);
-	}
+// Function to push an element onto the stack
+void push(int value) {
+    if (top >= MAX_SIZE - 1) { // Check for stack overflow
+        cout << "Stack Overflow. Cannot push " << value << "." << endl;
+        return;
+    }
+    stack[++top] = value; // Increment the top pointer and add the value
 }
 
-// Below is the function that
-// reverses the given stack using
-// insert_at_bottom()
-void reverse(stack<int>& st)
-{
-	if (st.size() > 0) {
-
-		// Hold all items in Function
-		// Call Stack until we
-		// reach end of the stack
-		int x = st.top();
-		st.pop();
-		reverse(st);
-
-		// Insert all the items held
-		// in Function Call Stack
-		// one by one from the bottom
-		// to top. Every item is
-		// inserted at the bottom
-		insert_at_bottom(st, x);
-	}
-	return;
+// Function to pop an element from the stack
+int pop() {
+    if (top == -1) { // Check for stack underflow
+        cout << "Stack Underflow." << endl;
+        return -1; // Return -1 if the stack is empty
+    }
+    return stack[top--]; // Return the top element and decrement the top pointer
 }
 
-// Driver Code
-int main()
-{
-	stack<int> st, st2;
-	// push elements into
-	// the stack
-	for (int i = 1; i <= 4; i++) {
-		st.push(i);
-	}
+// Function to check if the stack is empty
+bool isEmpty() {
+    return top == -1;
+}
 
-	st2 = st;
+// Recursive function to insert an element at the bottom of the stack
+void insertAtBottom(int value) {
+    if (isEmpty()) { // If the stack is empty, push the value directly
+        push(value);
+    } else {
+        int temp = pop();         // Pop the top element and store it temporarily
+        insertAtBottom(value);    // Recursive call to insert at the bottom
+        push(temp);               // Push the temporarily stored value back onto the stack
+    }
+}
 
-	cout << "Original Stack" << endl;
-	// printing the stack after reversal
-	while (!st2.empty()) {
-		cout << st2.top() << " ";
-		st2.pop();
-	}
-	cout<<endl;
+// Recursive function to reverse the stack
+void reverseStack() {
+    if (!isEmpty()) {             // If the stack is not empty
+        int temp = pop();         // Pop the top element and store it temporarily
+        reverseStack();           // Recursive call to reverse the remaining stack
+        insertAtBottom(temp);     // Insert the popped element at the bottom
+    }
+}
 
-	// function to reverse
-	// the stack
-	reverse(st);
-	cout << "Reversed Stack" << endl;
-	// printing the stack after reversal
-	while (!st.empty()) {
-		cout << st.top() << " ";
-		st.pop();
-	}
-	return 0;
+int main() {
+    int n, element;
+
+    // Input the number of elements in the stack
+    cout << "Enter the number of elements in the stack: ";
+    cin >> n;
+
+    // Input elements into the stack
+    cout << "Enter the elements of the stack:" << endl;
+    for (int i = 0; i < n; i++) {
+        cin >> element;
+        push(element);
+    }
+
+    // Display the original stack
+    cout << "Original Stack:" << endl;
+    for (int i = top; i >= 0; i--) { // Print elements from top to bottom
+        cout << stack[i] << " ";
+    }
+    cout << endl;
+
+    // Reverse the stack
+    reverseStack();
+
+    // Display the reversed stack
+    cout << "Reversed Stack:" << endl;
+    for (int i = top; i >= 0; i--) { // Print elements from top to bottom
+        cout << stack[i] << " ";
+    }
+    cout << endl;
+
+    return 0;
 }
