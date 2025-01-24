@@ -1,62 +1,92 @@
-
 #include <stdio.h>
-#include <string.h>
-#define MAX 10 // Maximum number of customers in the queue
+#define MAX 10
 
-char queue[MAX][100]; // Array to store customer names
-int front = -1, rear = -1; // Initialize front and rear pointers
+char queue[MAX][10];
 
-// Function to add a customer to the queue
-void enqueue(char customer[]) {
-    if ((rear + 1) % MAX == front) { // Check if the queue is full
-        printf("Sorry, capacity is full!\n");
+int Front = -1;
+
+int  Rear = -1;
+
+
+void enqueue(char customer[])
+{
+    if ((Rear + 1) % MAX == Front)
+        {
+        printf("Capacity is full!\n");
         return;
     }
-    if (front == -1) { // If the queue is empty
-        front = 0;
+
+    if (Front == -1)
+        {
+        Front = 0;
     }
-    rear = (rear + 1) % MAX; // Update rear pointer
-    strcpy(queue[rear], customer); // Add customer to the queue
-    printf("%s is added to the list!\n", customer);
+
+    Rear = (Rear + 1) % MAX;
+
+    for (int i = 0; customer[i] != '\0'; i++)
+        {
+        queue[Rear][i] = customer[i];
+
+        queue[Rear][i + 1] = '\0';
+    }
+
+    printf("%s is added in the list!\n", customer);
 }
 
-// Function to serve a customer and remove them from the queue
-void dequeue() {
-    if (front == -1) { // Check if the queue is empty
+
+void dequeue()
+{
+    if (Front == -1)
+
+        {
+        printf("No customer in the line!\n");
+        return;
+
+    }
+    printf("Give Biryani to %s\n", queue[Front]);
+
+    if (Front == Rear)
+
+        {
+        Front = -1;
+        Rear = -1;
+    }
+    else {
+
+        Front = (Front + 1) % MAX;
+    }
+}
+
+
+void Total_Customer()
+{
+    if (Front == -1)
+        {
         printf("No customer in the line!\n");
         return;
     }
-    printf("Give Biryani to %s\n", queue[front]); // Serve the customer
-    if (front == rear) { // If only one customer was in the queue
-        front = -1;
-        rear = -1;
-    } else {
-        front = (front + 1) % MAX; // Update front pointer
-    }
-}
 
-// Function to display the total number of customers in the queue
-void totalCustomers() {
-    if (front == -1) { // Check if the queue is empty
-        printf("No customer in the line!\n");
-        return;
+    int Count;
+
+    if (Rear >= Front)
+
+        {
+        Count = Rear - Front + 1;
     }
-    int count;
-    if (rear >= front) {
-        count = rear - front + 1; // Customers are in a contiguous block
-    } else {
-        count = MAX - front + rear + 1; // Customers are wrapped around
+    else {
+
+
+        Count = MAX - Front + Rear + 1;
     }
-    printf("%d total customers in line.\n", count);
+    printf("Total %d  customers in line.\n", Count);
 }
 
 int main() {
     int choice;
-    char customer[100];
+    char customer[10];
 
     while (1) {
-        // Display the menu
-        printf("\nChoose an option:\n");
+        printf("\n");
         printf("1. Add New Customer\n");
         printf("2. Give Biryani to Customer\n");
         printf("3. Total Customers in Line\n");
@@ -66,32 +96,39 @@ int main() {
 
         switch (choice) {
             case 1:
-                // Add a new customer
+
                 printf("Enter Customer Name: ");
-                getchar(); // To ignore leftover newline character
-                fgets(customer, sizeof(customer), stdin); // Read the customer name
-                customer[strcspn(customer, "\n")] = '\0'; // Remove the newline character
+                getchar();
+                fgets(customer, sizeof(customer), stdin);
+
+
+                for (int i = 0; customer[i] != '\0'; i++)
+
+                    {
+                    if (customer[i] == '\n')
+                    {
+                        customer[i] = '\0';
+                        break;
+                    }
+                }
+
                 enqueue(customer);
                 break;
 
             case 2:
-                // Serve a customer
                 dequeue();
                 break;
 
             case 3:
-                // Display total customers
-                totalCustomers();
+                Total_Customer();
                 break;
 
             case 4:
-                // Exit the program
                 printf("Closing the shop.\n");
                 return 0;
 
             default:
-                // Handle invalid choices
-                printf("Invalid choice. Please try again.\n");
+                printf("Invalid choice..\n");
         }
     }
 }
