@@ -12,7 +12,7 @@ int front = -1, rear = -1;
 void Insert(int x) {
     if (rear == MAX_SIZE - 1) {
         cout << "Queue is full!" << endl;
- S       return;
+       return;
     }
 
     // If the queue is empty, insert the element directly
