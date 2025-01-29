@@ -1,59 +1,80 @@
-#include <bits/stdc++.h>
-using namespace std;
+#include <iostream>   // Include the standard input-output library
+#include <vector>     // Include the vector container from the Standard Template Library (STL)
+using namespace std;  // Use the standard namespace to avoid prefixing std::
 
+/*
+ * Class Solution containing a function to count the number of provinces in an undirected graph.
+ */
 class Solution {
-  private: 
-    // dfs traversal function 
-    void dfs(int node, vector<int> adjLs[], int vis[]) {
-        // mark the more as visited
-        vis[node] = 1; 
-        for(auto it: adjLs[node]) {
-            if(!vis[it]) {
-                dfs(it, adjLs, vis); 
+private:
+    /*
+     * Depth-First Search (DFS) traversal function.
+     * @param node: Current node being visited.
+     * @param adjList: Adjacency list representation of the graph.
+     * @param visited: Array to track visited nodes.
+     */
+    void dfs(int node, vector<int> adjList[], vector<int>& visited) {
+        visited[node] = 1; // Mark the current node as visited
+        
+        // Recursively visit all unvisited adjacent nodes
+        for (auto neighbor : adjList[node]) {
+            if (!visited[neighbor]) {
+                dfs(neighbor, adjList, visited); 
             }
         }
     }
-  public:
-    int numProvinces(vector<vector<int>> adj, int V) {
-        vector<int> adjLs[V]; 
-        
-        // to change adjacency matrix to list 
-        for(int i = 0;i<V;i++) {
-            for(int j = 0;j<V;j++) {
-                // self nodes are not considered
-                if(adj[i][j] == 1 && i != j) {
-                    adjLs[i].push_back(j); 
-                    adjLs[j].push_back(i); 
+
+public:
+    /*
+     * Function to count the number of provinces (connected components) in the graph.
+     * @param adjMatrix: Adjacency matrix representation of the graph.
+     * @param V: Number of vertices in the graph.
+     * @return Number of provinces (connected components).
+     */
+    int numProvinces(vector<vector<int>> adjMatrix, int V) {
+        vector<int> adjList[V]; // Adjacency list representation of the graph
+
+        // Convert adjacency matrix to adjacency list
+        for (int i = 0; i < V; i++) {
+            for (int j = 0; j < V; j++) {
+                // If there is an edge and it's not a self-loop
+                if (adjMatrix[i][j] == 1 && i != j) {
+                    adjList[i].push_back(j); // Add edge i → j
+                    adjList[j].push_back(i); // Add edge j → i (for undirected graph)
                 }
             }
         }
-        int vis[V] = {0}; 
-        int cnt = 0; 
-        for(int i = 0;i<V;i++) {
-            // if the node is not visited
-            if(!vis[i]) {
-                // counter to count the number of provinces 
-                cnt++;
-               dfs(i, adjLs, vis); 
+
+        vector<int> visited(V, 0); // Vector to track visited nodes, initialized to 0
+        int provinceCount = 0;     // Variable to count the number of provinces
+
+        // Traverse all nodes
+        for (int i = 0; i < V; i++) {
+            if (!visited[i]) { // If the node is not visited, it starts a new province
+                provinceCount++; // Increment province count
+                dfs(i, adjList, visited); // Perform DFS traversal for this component
             }
         }
-        return cnt; 
-        
+
+        return provinceCount; // Return the total number of provinces
     }
 };
 
+/*
+ * Main function to test the numProvinces function.
+ */
 int main() {
-    
-    vector<vector<int>> adj
-    {
+    // Define an adjacency matrix representing the graph
+    vector<vector<int>> adjMatrix{
         {1, 0, 1},
         {0, 1, 0},
         {1, 0, 1}
     };
 
-        
-    Solution ob;
-    cout << ob.numProvinces(adj,3) << endl;
-        
-    return 0;
+    Solution obj; // Create an instance of the Solution class
+
+    // Call the numProvinces function and print the result
+    cout << "Number of Provinces: " << obj.numProvinces(adjMatrix, 3) << endl;
+
+    return 0; // Indicate successful execution
 }
