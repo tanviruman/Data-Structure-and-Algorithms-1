@@ -1,0 +1,64 @@
+#include <iostream>
+using namespace std;
+
+// Maximum size of the queue
+const int MAX_SIZE = 100;
+
+// Global variables to represent the queue
+int queue[MAX_SIZE];
+int front = -1, rear = -1;
+
+// Function to insert an element into the queue in a sorted manner
+void Insert(int x) {
+    if (rear == MAX_SIZE - 1) {
+        cout << "Queue is full!" << endl;
+       return;
+    }
+
+    // If the queue is empty, insert the element directly
+    if (front == -1) {
+        front = rear = 0;
+        queue[rear] = x;
+    } else {
+        // Find the correct position to insert the element
+        int i;
+        for (i = rear; i >= front && queue[i] > x; i--) {
+            queue[i + 1] = queue[i]; // Shift elements to the right
+        }
+        queue[i + 1] = x; // Insert the element in the correct position
+        rear++; // Increment the rear pointer
+    }
+}
+
+// Function to display the elements of the queue
+void display() {
+    if (front == -1) {
+        cout << "Queue is empty!" << endl;
+        return;
+    }
+
+    cout << "Queue: ";
+    for (int i = front; i <= rear; i++) {
+        cout << queue[i] << " "; // Print each element
+    }
+    cout << endl;
+}
+
+int main() {
+    int element;
+
+    // Loop to take user input and insert elements into the queue
+    while (true) {
+        cout << "Enter element: ";
+        cin >> element;
+
+        if (element == -1) { // If user enters -1, exit the loop
+            break;
+        }
+
+        Insert(element); // Insert the element into the queue
+        display(); // Display the current state of the queue
+    }
+
+    return 0;
+}
