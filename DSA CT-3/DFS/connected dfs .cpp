@@ -1,3 +1,5 @@
+//Use DFS to check if all nodes in an undirected graph are connected.  
+
 #include <iostream>  // Include the input/output library
 #include <vector>    // Include the vector library for dynamic arrays
 using namespace std; // Use the standard namespace for simpler syntax

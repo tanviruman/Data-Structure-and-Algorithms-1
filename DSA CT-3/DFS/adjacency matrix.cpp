@@ -1,3 +1,5 @@
+
+//Implement DFS to print the traversal of an undirected graph starting from a given starting node from adjacency matrix. 
 #include <iostream> // Include the standard input/output library
 #include <vector>   // Include the vector library for dynamic arrays
 using namespace std; // Use the standard namespace to simplify syntax

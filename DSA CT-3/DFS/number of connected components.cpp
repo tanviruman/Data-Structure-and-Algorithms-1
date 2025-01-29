@@ -1,3 +1,4 @@
+//Use DFS to count the number of connected components in a given undirected graph. 
 #include <iostream> // Include the iostream library for input and output operations
 #include <vector>   // Include the vector library to use dynamic arrays
 using namespace std; // Use the standard namespace to avoid prefixing std::

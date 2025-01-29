@@ -1,3 +1,5 @@
+
+//Use DFS to detect a cycle in a graph. 
 #include <iostream>  // Include the input/output library
 #include <vector>    // Include the vector library for dynamic arrays
 using namespace std; // Use the standard namespace for simpler syntax
